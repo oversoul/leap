@@ -1,0 +1,23 @@
+{
+    "name": "aecodes/leap",
+    "description": "A simple command line app to find FIXME in your projects",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Amine",
+            "email": "kurosoul.ae@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Aecodes\\Leap\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/console": "v5.0.4"
+    },
+    "require-dev": {
+        "mikey179/vfsstream": "^1.6",
+        "phpunit/phpunit": "^9.0"
+    }
+}
