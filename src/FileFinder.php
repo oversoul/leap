@@ -37,7 +37,7 @@ class FileFinder
     /**
      * Check if file is valid
      *
-     * @param SplFileInfo $fileInfo
+     * @param SplFileInfo $file
      * @return boolean
      */
     public function isValidFile(SplFileInfo $file): bool
