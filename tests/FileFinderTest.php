@@ -58,4 +58,21 @@ class FileFinderTest extends TestCase
         $file = new SplFileInfo($this->fileSystem->url('valid.json'));
         $this->assertTrue($fileFinder->isValidFile($file));
     }
+
+    public function testIgnoresFilesInsideExcludedFolders()
+    {
+        // by default vendor and node_modules are ignored
+        $fs = vfsStream::setup('root', 444, [
+            'vendor'    =>  ['a', 'b', 'c'],
+            'node_modules' => ['a', 'b', 'c'],
+            'file',
+            'file2',
+            'folder' => ['a', 'b', 'c'],
+        ]);
+
+        $fileFinder = new FileFinder;
+
+        $files = iterator_to_array($fileFinder->find($fs->url()));
+        $this->assertCount(5, $files);
+    }
 }
