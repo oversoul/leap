@@ -2,6 +2,7 @@
     "name": "aecodes/leap",
     "description": "A simple command line app to find FIXME in your projects",
     "type": "project",
+    "license": "MIT",
     "authors": [
         {
             "name": "Amine",
