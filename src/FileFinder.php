@@ -25,7 +25,7 @@ class FileFinder
     public function find(string $path): RecursiveIteratorIterator
     {
         $iterator = new RecursiveDirectoryIterator(
-            realpath($path), 
+            $path, 
             RecursiveDirectoryIterator::SKIP_DOTS
         );
         

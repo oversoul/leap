@@ -31,15 +31,31 @@ class FileFinderTest extends TestCase
         $files = $fileFinder->find($path);
     }
 
+    public function testGetAllFiles()
+    {
+        $fileFinder = new FileFinder;
+        $files = $fileFinder->find($this->fileSystem->url());
+        
+        $files = iterator_to_array($files);
+        
+        $this->assertCount(1, $files);
+
+        // generate random number of files
+        $number = rand(0, 20);
+
+        $dirFiles = array_fill(0, $number, random_bytes(10));
+
+        $fs = vfsStream::setup('root', 444, $dirFiles);
+
+        $files = iterator_to_array($fileFinder->find($fs->url()));
+        $this->assertCount($number, $files);
+    }
+
     public function testIfFileIsValid()
     {
         $fileFinder = new FileFinder;
         // file
         $file = new SplFileInfo($this->fileSystem->url('valid.json'));
-        $this->assertTrue($fileFinder->isValidFile($file));
-
-        // directory
-        $file = new SplFileInfo($this->fileSystem->url('directory'));
         $this->assertTrue($fileFinder->isValidFile($file));
     }
 }
