@@ -12,10 +12,26 @@ or you can use the command
 php bin/leap.php find ~/path
 ```
 
+## Config
+
+it's possible to create configuration file inside the searched folder.
+
+path: `my-project/.leap/config.php`
+
+```php
+return [
+    // folders you want to exclude from the search
+    'exclude_folders'   =>  ['vendor'],
+
+    // keywords you want to search for (not case sensitive)
+    'keywords'  =>  ['NOTE', 'TODO', 'FIXME']
+];
+```
+
 
 ## Tests
 
-run phpunit in the tests folder
+`./vendor/bin/phpunit`
 
 
 ## Notes
