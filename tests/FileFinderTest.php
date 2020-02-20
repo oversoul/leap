@@ -22,7 +22,7 @@ class FileFinderTest extends TestCase
 
     public function testFolderMustExist()
     {
-        $fileFinder = new FileFinder;
+        $fileFinder = new FileFinder([]);
 
         // none existent folder
         $path = __DIR__ . random_bytes(20);
@@ -33,7 +33,7 @@ class FileFinderTest extends TestCase
 
     public function testGetAllFiles()
     {
-        $fileFinder = new FileFinder;
+        $fileFinder = new FileFinder([]);
         $files = $fileFinder->find($this->fileSystem->url());
         
         $files = iterator_to_array($files);
@@ -53,7 +53,7 @@ class FileFinderTest extends TestCase
 
     public function testIfFileIsValid()
     {
-        $fileFinder = new FileFinder;
+        $fileFinder = new FileFinder([]);
         // file
         $file = new SplFileInfo($this->fileSystem->url('valid.json'));
         $this->assertTrue($fileFinder->isValidFile($file));
@@ -70,7 +70,7 @@ class FileFinderTest extends TestCase
             'folder' => ['a', 'b', 'c'],
         ]);
 
-        $fileFinder = new FileFinder;
+        $fileFinder = new FileFinder(['vendor', 'node_modules']);
 
         $files = iterator_to_array($fileFinder->find($fs->url()));
         $this->assertCount(5, $files);
