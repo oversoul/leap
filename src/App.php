@@ -26,10 +26,14 @@ class App extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $fileFinder = new FileFinder;
-        $fileParser = new FileParser;
-
         $path = $input->getArgument('path') ?? getcwd();
+        
+        // get the config
+        $config = new Config($path);
+
+        // proceed with the current/default config
+        $fileFinder = new FileFinder($config->get('exclude_folders'));
+        $fileParser = new FileParser($config->get('keywords'));
 
         $files = $fileFinder->find($path);
 
@@ -46,7 +50,7 @@ class App extends Command
     {
         $output->writeln('');
 
-        if (count($results) === 0 ) {
+        if (count($results) === 0) {
             $output->writeln("<error>No tasks found.</error>\n");
             return;
         }

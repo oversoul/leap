@@ -14,7 +14,11 @@ class FileFinder
      *
      * @var array
      */
-    protected $excludeFolders = ['vendor', 'node_modules'];
+    protected $excludeFolders = [];
+
+    public function __construct(array $excludeFolders) {
+        $this->excludeFolders = $excludeFolders;
+    }
 
     /**
      * Find files in path

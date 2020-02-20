@@ -5,7 +5,12 @@ namespace Aecodes\Leap;
 class FileParser
 {
     protected $tasks = [];
-    protected $keywords = ['FIXME', 'NOTE'];
+    protected $keywords = [];
+
+    public function __construct(array $keywords)
+    {
+        $this->keywords = $keywords;
+    }
 
     /**
      * Parse all files
@@ -15,8 +20,13 @@ class FileParser
      */
     public function parseFiles(iterable $files)
     {
+        if (empty($this->keywords)) {
+            return;
+        }
+
         foreach ($files as $file) {
-            $this->parseFile($file->getRealPath());
+            // getRealPath
+            $this->parseFile($file->getPathName());
         }
     }
 
@@ -30,13 +40,13 @@ class FileParser
     {
         $content = file_get_contents($file);
         $lines = explode("\n", $content);
-        
-        for($index = 0; $index < count($lines); $index++ ) {
+
+        for ($index = 0; $index < count($lines); $index++) {
             // line numbers are 1 based. index is 0 based
             $this->parseLine($file, $lines[$index], $index + 1);
         }
     }
-    
+
     /**
      * Parse line
      *
@@ -60,14 +70,17 @@ class FileParser
      */
     public function containTask(string $line): bool
     {
-        if ( strlen($line) < 4 ) return false;
+        // if the line length is less than 4 character, no need to proceed.
+        if (strlen($line) < 4) {
+            return false;
+        }
 
         // running stripos on all keywords
-        $result = array_filter($this->keywords, function($key) use($line) {
-            return stripos($line, $key . ':') !== false;
+        $result = array_filter($this->keywords, function ($key) use ($line) {
+            return stripos($line, $key) !== false;
         });
 
-        return ( count($result) > 0 );
+        return (count($result) > 0);
     }
 
     /**
