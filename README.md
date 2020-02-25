@@ -28,6 +28,12 @@ return [
 ];
 ```
 
+You can also define a global config file, at your home directory
+
+```
+~/.leap/config.php
+``` 
+
 
 ## Tests
 

@@ -18,16 +18,45 @@ class Config {
         $this->load();
     }
 
-    protected function load()
+    protected function getConfigFromFile($configFile): ?array
+    {
+        if ( ! file_exists($configFile) ) {
+            return null;
+        }
+
+        $config = require $configFile;
+        $config['exclude_folders'][] = '.leap';
+        return $config;
+    }
+
+    protected function getLocalConfig(): ?array
     {
         $configFile = $this->directory . DIRECTORY_SEPARATOR . '.leap' . DIRECTORY_SEPARATOR . 'config.php';
+        return $this->getConfigFromFile($configFile);
+    }
 
-        if ( ! file_exists($configFile) ) {
+    protected function getGlobalConfig(): ?array
+    {
+        $configFile = getenv('HOME') . DIRECTORY_SEPARATOR . '.leap' . DIRECTORY_SEPARATOR . 'config.php';
+        return $this->getConfigFromFile($configFile);
+    }
+
+    protected function load()
+    {
+        $localConfig = $this->getLocalConfig();
+        $globalConfig = $this->getGlobalConfig();
+
+        if ( $localConfig ) {
+            $this->config = $localConfig;
             return $this;
         }
 
-        $this->config = require $configFile;
-        $this->config['exclude_folders'][] = '.leap';
+        if ( $globalConfig ) {
+            $this->config = $globalConfig;
+            return $this;
+        }
+
+        return $this;
     }
 
     public function get($key)
