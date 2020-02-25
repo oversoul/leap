@@ -1,11 +1,13 @@
 <?php
 namespace Aecodes\Leap;
 
-class Task {
+class Task
+{
     protected $line;
     protected $number;
 
-    public function __construct(string $line, int $number) {
+    public function __construct(string $line, int $number)
+    {
         $this->line = $line;
         $this->number = $number;
     }
@@ -24,7 +26,7 @@ class Task {
     {
         $string = "{$word} {$this->number}";
         $spaces = str_repeat(' ', $size - strlen($string));
-    
+
         return $string . $spaces;
     }
 }

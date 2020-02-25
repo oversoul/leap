@@ -2,25 +2,27 @@
 
 namespace Aecodes\Leap;
 
-class Config {
-    
+class Config
+{
+
     protected $config = [];
     protected $defaultConfig = [
-        'exclude_folders'   =>  ['vendor', 'node_modules', '.leap'],
-        'keywords'          =>  ['FIXME', 'NOTE'],
+        'exclude_folders' => ['vendor', 'node_modules', '.leap'],
+        'keywords' => ['FIXME', 'NOTE'],
     ];
 
     protected $directory;
 
-    public function __construct(string $directory) {
+    public function __construct(string $directory)
+    {
         $this->directory = $directory;
         // load the config
         $this->load();
     }
 
-    protected function getConfigFromFile($configFile): ?array
+    protected function getConfigFromFile($configFile):  ? array
     {
-        if ( ! file_exists($configFile) ) {
+        if (!file_exists($configFile)) {
             return null;
         }
 
@@ -29,13 +31,13 @@ class Config {
         return $config;
     }
 
-    protected function getLocalConfig(): ?array
+    protected function getLocalConfig() :  ? array
     {
         $configFile = $this->directory . DIRECTORY_SEPARATOR . '.leap' . DIRECTORY_SEPARATOR . 'config.php';
         return $this->getConfigFromFile($configFile);
     }
 
-    protected function getGlobalConfig(): ?array
+    protected function getGlobalConfig() :  ? array
     {
         $configFile = getenv('HOME') . DIRECTORY_SEPARATOR . '.leap' . DIRECTORY_SEPARATOR . 'config.php';
         return $this->getConfigFromFile($configFile);
@@ -46,12 +48,12 @@ class Config {
         $localConfig = $this->getLocalConfig();
         $globalConfig = $this->getGlobalConfig();
 
-        if ( $localConfig ) {
+        if ($localConfig) {
             $this->config = $localConfig;
             return $this;
         }
 
-        if ( $globalConfig ) {
+        if ($globalConfig) {
             $this->config = $globalConfig;
             return $this;
         }
@@ -61,7 +63,7 @@ class Config {
 
     public function get($key)
     {
-        if ( isset($this->config[$key]) ) {
+        if (isset($this->config[$key])) {
             return $this->config[$key];
         }
 

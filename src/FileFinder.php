@@ -1,10 +1,10 @@
 <?php
 namespace Aecodes\Leap;
 
-use SplFileInfo;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
 use RecursiveCallbackFilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use SplFileInfo;
 
 class FileFinder
 {
@@ -16,7 +16,8 @@ class FileFinder
      */
     protected $excludeFolders = [];
 
-    public function __construct(array $excludeFolders) {
+    public function __construct(array $excludeFolders)
+    {
         $this->excludeFolders = $excludeFolders;
     }
 
@@ -29,10 +30,10 @@ class FileFinder
     public function find(string $path): RecursiveIteratorIterator
     {
         $iterator = new RecursiveDirectoryIterator(
-            $path, 
+            $path,
             RecursiveDirectoryIterator::SKIP_DOTS
         );
-        
+
         $callbackIterator = new RecursiveCallbackFilterIterator($iterator, [$this, 'isValidFile']);
 
         return new RecursiveIteratorIterator($callbackIterator);

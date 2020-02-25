@@ -10,6 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class App extends Command
 {
 
+    /**
+     * @var string
+     */
     protected static $defaultName = 'find';
 
     protected function configure()
@@ -27,7 +30,7 @@ class App extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $path = $input->getArgument('path') ?? getcwd();
-        
+
         // get the config
         $config = new Config($path);
 
